@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 class Account extends React.Component {
   constructor(props) {
+    //allBind(this);
     super(props);
 
     this.state = {
@@ -11,7 +13,7 @@ class Account extends React.Component {
 
   saveAndContinue() {
     console.log('Account data saved');
-    console.log(props);
+    console.log('this props ' + this.props.test);
   }
 
   render() {
@@ -19,14 +21,13 @@ class Account extends React.Component {
       <div>
         <label>Name</label> 
         <input type="text" ref="name" />
-
         <label>Email</label>
         <input type="password" ref="email" />
 
         <label>Password</label>
         <input type="email" ref="password" />
 
-      <button onClick={ this.saveAndContinue }>Save and Continue</button>
+      <button onClick={ this.saveAndContinue.bind(this) }>Save and Continue</button>
       </div>
     )
   }

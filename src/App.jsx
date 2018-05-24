@@ -24,9 +24,9 @@ class App extends React.Component {
   render() {
     switch (this.state.step) {
       case 0:
-        return <Landing next={this.nextStep}/>
+        return <Landing next={this.nextStep} />
       case 1:
-        return <Account next={this.nextStep}/>
+        return <Account next={this.nextStep} test={this.state.step}/>
       case 2:
         return <Shipping next={this.nextStep}/>
       case 3:
