@@ -1,37 +1,51 @@
 const express = require('express');
 const { Pool, Client } = require('pg');
 const client = new Client('postgres://localhost/checkout');
-const app = express();;
+const bodyParser = require('body-parser')
+const app = express();
+app.use(bodyParser.json());
 client.connect();
 
-client.query('SELECT * from users where name="jack attack"', (err, res) => {
-  console.log(err ? err.stack : res.fields);
-  client.end();
+const jsonParser = bodyParser.json()
+
+
+/*
+    POSTGRES ROUTES
+*/
+// Insert new record into users
+app.post('/insert/account', ({body: { name, email, password }}, res) => {
+  async function newAccount(name, email, password) {
+    await client.query(`INSERT INTO users (name, email, password)
+            VALUES ($1, $2, $3);`,[name, email, password], (err, res) => {
+            if (err) return console.log(err);
+          });
+    }
+    res.sendStatus(200);
 });
 
+// Insert new record into shipping
+app.post('/insert/shipping', (
+  {body: { email, primary_address = null, secondary_address = null,
+  city, state, zip, phoneNumber }}, res) => {
+    
+    client.query(`INSERT INTO shipping (email, primary_address, secondary_address, city, state, shipping_zip, phone)
+      VALUES ($1, $2, $3, $4, $5, $6, $7);`,
+      [email, primary_address, secondary_address, city, state, zip, phoneNumber], (err, res) => {
+        if (err) return console.log(err);
+     });
+    res.sendStatus(200);
+});
 
-// client.query('INSERT INTO users VALUES ($1, $2, $3)', ['jack attack', 'jackattack@gmail.com', 'hunter2'], (err, res) =>{
-//   if(err) return console.log(err);
-//   console.log(res);
-// })
-// client.query({
-//   name: 'jack attack',
-//   email: 'jackattack@fun.com',
-//   password: 'hunter2',
-//   address_one: '944 market st'
-// });
-//   city: 'San Francisco',
-//   state: 'California',
-//   shipping_zip: 94611,
-//   phone: 4154647809,
-//   credit_card_number: 1111222233334444,
-//   exp_date: 0221,
-//   cvv: 420,
-//   billing_zip: 94611
-// });
+// Insert new record into payment
+app.post('/insert/payment', ({body: { name, email, password }}, res) => {
+  async function newAccount(name, email, password) {
+    await client.query(`INSERT INTO users (name, email, password)
+            VALUES ($1, $2, $3);`,[name, email, password], (err, res) => {
+            if (err) return console.log(err);
+          });
+    }
+    res.sendStatus(200);
+});
 
-
-
-app.get('/', (req, res) => res.send('Hello World!'))
-
-app.listen(5000, () => console.log('Example app listening on port 5000!'))
+app.get('/', (req, res) => res.send('Hello World!'));
+app.listen(5000, () => console.log('Example app listening on port 5000!'));

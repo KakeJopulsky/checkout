@@ -5,8 +5,8 @@ class Shipping extends React.Component {
     super(props);
 
     this.state = {
-      addressOne: '',
-      addressTwo: '',
+      primaryAddress: '',
+      secondaryAddress: '',
       city: '',
       state: '',
       zip: '',
@@ -33,10 +33,10 @@ class Shipping extends React.Component {
     return (
       <div>
         <label>Address</label> 
-        <input name="addressOne" value ={this.state.addressOne} onChange={e => this.handleChange(e)}/>
+        <input name="primaryAddress" value ={this.state.primaryAddress} onChange={e => this.handleChange(e)}/>
         
         <label>Secondary Address</label>
-        <input name="addressTwo" value ={this.state.addressTwo} onChange={e => this.handleChange(e)} />
+        <input name="secondaryAddress" value ={this.state.secondaryAddress} onChange={e => this.handleChange(e)} />
 
         <label>City</label>
         <input name="city" value ={this.state.city} onChange={e => this.handleChange(e)} />
