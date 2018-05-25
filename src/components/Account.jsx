@@ -22,10 +22,11 @@ class Account extends React.Component {
     })
   }
 
-  saveAndContinue() {
+  async saveAndContinue() {
     this.props.updateAppState('accountData', this.state);
-    // Perform POST req with user info
-    // then go to next step
+    await axios.post('/insert/account', this.state)
+      .then(res => console.log(res))
+      .then(err => console.log(err));
     this.props.next();
   }
 

@@ -2,11 +2,12 @@ const express = require('express');
 const { Pool, Client } = require('pg');
 const client = new Client('postgres://localhost/checkout');
 const bodyParser = require('body-parser')
+const path = require('path');
 const app = express();
 app.use(bodyParser.json());
 client.connect();
 
-const jsonParser = bodyParser.json()
+app.use('/', express.static(path.join(__dirname, '../dist/')));
 
 
 /*
@@ -14,10 +15,11 @@ const jsonParser = bodyParser.json()
 */
 // Insert new record into users
 app.post('/insert/account', ({body: { name, email, password }}, res) => {
-  client.query(`INSERT INTO users (name, email, password)
-    VALUES ($1, $2, $3);`,[name, email, password], (err, res) => {
-    if (err) return console.log(err);
-  });
+  console.log(name, email, password);
+  // client.query(`INSERT INTO users (name, email, password)
+  //   VALUES ($1, $2, $3);`,[name, email, password], (err, res) => {
+  //   if (err) return console.log(err);
+  // });
   res.sendStatus(200);
 });
 
@@ -43,5 +45,4 @@ app.post('/insert/payment', ({body: { email, creditCardNumber, expDate, cvv, bil
   res.sendStatus(200);
 });
 
-app.get('/', (req, res) => res.send('Hello World!'));
 app.listen(5000, () => console.log('Example app listening on port 5000!'));
