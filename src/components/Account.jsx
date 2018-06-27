@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import axios from 'axios';
 
 class Account extends React.Component {
@@ -22,12 +21,12 @@ class Account extends React.Component {
     })
   }
 
+  // Save to db and increment step
   async saveAndContinue() {
     this.props.updateAppState('accountData', this.state);
     await axios.post('/insert/account', this.state)
-      .then(res => console.log(res))
+      .then(res => console.log(this.props.next()))
       .then(err => console.log(err));
-    this.props.next();
   }
 
   render() {

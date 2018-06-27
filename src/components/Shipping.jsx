@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 class Shipping extends React.Component {
   constructor(props) {
@@ -22,11 +23,12 @@ class Shipping extends React.Component {
     })
   }
 
-  saveAndContinue() {
+  async saveAndContinue() {
     this.props.updateAppState('shippingData', this.state);
-    // Get form data from state
-    // Save to db
-    this.props.next();
+    await axios.post('/insert/shipping', this.state)
+      .then(res => console.log(this.props.next()))
+      .then(err => console.log(err));
+    //this.props.next();
   }
 
   render() {
